@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <string name="retry">Réessayer</string>
+  <string name="on">Le %1$s</string>
 </resources>

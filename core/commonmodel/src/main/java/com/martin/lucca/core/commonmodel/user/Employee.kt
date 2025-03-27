@@ -8,4 +8,6 @@ data class Employee(
     val jobTitle: String?,
     val pictureName: String?,
     val pictureUrl: String?,
-)
+){
+    val fullName = "$firstName $lastName"
+}

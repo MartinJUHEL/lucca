@@ -2,9 +2,11 @@ package com.martin.lucca.feature.employee.data.service
 
 import com.martin.lucca.core.common.network.FetchedResponse
 import com.martin.lucca.feature.employee.data.api.EmployeeApi
+import com.martin.lucca.feature.employee.data.dto.EmployeeDetailsRequest
 import com.martin.lucca.feature.employee.data.dto.EmployeesRequest
+import com.martin.lucca.feature.employee.data.dto.toEmployeeDetails
+import com.martin.lucca.feature.employee.data.dto.toEmployeesList
 import com.martin.network.SafeHttpCaller
-import com.martin.lucca.feature.employee.data.dto.toUsersList
 import javax.inject.Inject
 
 class EmployeeServiceRemote @Inject constructor(
@@ -20,7 +22,7 @@ class EmployeeServiceRemote @Inject constructor(
                 fields = employeesRequest.fields,
                 orderBy = employeesRequest.orderBy
             )
-        }, transform = { userResponseDto -> userResponseDto.toUsersList() })
+        }, transform = { employeesResponseDto -> employeesResponseDto.toEmployeesList() })
 
         return when (response) {
             is FetchedResponse.Success -> EmployeeService.EmployeesResult.Success(response.value)
@@ -28,9 +30,17 @@ class EmployeeServiceRemote @Inject constructor(
         }
     }
 
-    override suspend fun getEmployeeDetails(userId: Int) {
-        TODO("Not yet implemented")
+    override suspend fun getEmployeeDetails(employeeDetailsRequest: EmployeeDetailsRequest): EmployeeService.EmployeeDetailsResult {
+        val response = safeHttpCaller.call(action = {
+            employeeApi.getEmployee(
+                fields = employeeDetailsRequest.fields,
+                employeeId = employeeDetailsRequest.employeeId
+            )
+        }, transform = { employeeResponseDto -> employeeResponseDto.toEmployeeDetails() })
+
+        return when (response) {
+            is FetchedResponse.Success -> EmployeeService.EmployeeDetailsResult.Success(response.value)
+            is FetchedResponse.Error -> EmployeeService.EmployeeDetailsResult.Error
+        }
     }
-
-
 }

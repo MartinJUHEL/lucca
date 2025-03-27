@@ -36,6 +36,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:asyncimage"))
+    testImplementation(project(":core:commonmodel"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

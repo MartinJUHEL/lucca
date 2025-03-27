@@ -102,7 +102,7 @@ internal fun EmployeeCard(
 
 @Preview(showBackground = true)
 @Composable
-internal fun UserCardPreview() {
+internal fun EmployeeCardPreview() {
     MaterialTheme {
         EmployeeCard(
             employee = Employee(

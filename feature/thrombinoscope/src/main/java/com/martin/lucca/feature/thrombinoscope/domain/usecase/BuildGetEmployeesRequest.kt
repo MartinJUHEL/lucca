@@ -8,7 +8,7 @@ private const val OPERATIONS = 1
 private const val FIELDS = "id,name,firstName,lastName,mail,jobTitle,picture[name,href]"
 private const val ORDER_BY = "lastName,asc"
 
-class BuildGetUsersRequest @Inject constructor() {
+class BuildGetEmployeesRequest @Inject constructor() {
 
     operator fun invoke(): EmployeesRequest {
         return EmployeesRequest(

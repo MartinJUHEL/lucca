@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.martin.lucca.core.navigation.Screen
 import com.martin.lucca.feature.thrombinoscope.presentation.ThrombinoscopeRoute
+import com.martin.lucca.feature.userdetails.presentation.EmployeeDetailsRoute
 
 @Composable
 fun AppEntry(
@@ -20,7 +21,7 @@ fun AppEntry(
             ThrombinoscopeRoute(navController = navController)
         }
         composable<Screen.EmployeeDetails> {
-            ThrombinoscopeRoute(navController = navController)
+            EmployeeDetailsRoute(navController = navController)
         }
     }
 }

@@ -1,8 +1,10 @@
 package com.martin.lucca.feature.employee.data.api
 
+import com.martin.lucca.feature.employee.data.dto.EmployeeDetailsResponseDto
 import com.martin.lucca.feature.employee.data.dto.EmployeesResponseDto
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface EmployeeApi {
@@ -18,4 +20,13 @@ interface EmployeeApi {
         @Query("fields") fields: String,
         @Query("orderBy") orderBy: String
     ): Response<EmployeesResponseDto>
+
+    /**
+     * Get an employee details
+     */
+    @GET("api/v3/users/{userId}")
+    suspend fun getEmployee(
+        @Path("userId") employeeId: Int,
+        @Query("fields") fields: String,
+    ): Response<EmployeeDetailsResponseDto>
 }

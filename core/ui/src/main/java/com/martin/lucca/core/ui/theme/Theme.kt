@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 private val LightColorPalette = lightColorScheme(
     primary = Blue40,
     onPrimary = Color.White,
-    primaryContainer = Blue90,
+    primaryContainer = BracingBlue,
     onPrimaryContainer = Blue10,
     inversePrimary = Blue80,
     background = WhiteSolid,

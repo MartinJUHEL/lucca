@@ -33,7 +33,7 @@ data class PictureItemResponseDto(
 // CONVERSION METHODS
 ///////////////////////////////////////////////////////////////////////////
 
-internal fun EmployeesResponseDto.toUsersList(): List<Employee> {
+internal fun EmployeesResponseDto.toEmployeesList(): List<Employee> {
     return data.items.map {
         Employee(
             id = it.id,

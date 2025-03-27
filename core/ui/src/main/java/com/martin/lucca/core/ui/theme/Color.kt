@@ -28,6 +28,7 @@ val Blue80 = Color(0xFF99c2ff)
 val Blue90 = Color(0xFFcce0ff)
 
 val BlueZodiac = Color(0xFF0B1732)
+val BracingBlue = Color(0XFF004284)
 val WhiteSolid = Color(0xFFf4f6fb)
 
 ///////////////////////////////////////////////////////////////////////////

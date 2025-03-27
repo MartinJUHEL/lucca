@@ -26,6 +26,7 @@ class SafeHttpCallerImpl @Inject constructor() : SafeHttpCaller {
                 ErrorInfo(e.code(), e.message())
             )
         } catch (e: Throwable) {
+            e.printStackTrace()
             return FetchedResponse.Error(
                 ErrorInfo(HTTP_CODE_GENERIC_ERROR, e.message ?: DEFAULT_ERROR_MESSAGE)
             )

@@ -7,7 +7,7 @@ import javax.inject.Inject
 internal class BuildThrombinoscopeUiState @Inject constructor(private val employeeService: EmployeeService) {
 
     suspend operator fun invoke(): ThrombinoscopeUiState {
-        return when (val result = employeeService.getEmployees(BuildGetUsersRequest().invoke())) {
+        return when (val result = employeeService.getEmployees(BuildGetEmployeesRequest().invoke())) {
             is EmployeeService.EmployeesResult.Success -> {
                 return if (result.employees.isEmpty()) {
                     ThrombinoscopeUiState.Empty

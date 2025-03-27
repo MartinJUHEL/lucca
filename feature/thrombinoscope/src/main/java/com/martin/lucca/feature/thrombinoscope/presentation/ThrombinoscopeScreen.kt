@@ -42,7 +42,7 @@ internal fun ThrombinoscopeScreen(
         topBar = {
             CenterAlignedTopAppBar(title = {
                 Text(
-                    text = stringResource(id = R.string.thrombinoscopeTitle),
+                    text = stringResource(id = R.string.thrombinoscope_title),
                     style = Typography.titleMedium
                 )
             })
@@ -74,7 +74,7 @@ private fun EmptyScreen() {
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
     ) {
-        Text(stringResource(R.string.thrombinoscopeTitle), style = Typography.displayLarge)
+        Text(stringResource(R.string.thrombinoscope_title), style = Typography.displayLarge)
     }
 }
 

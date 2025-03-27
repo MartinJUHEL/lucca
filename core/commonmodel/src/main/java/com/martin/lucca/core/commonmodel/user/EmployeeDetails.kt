@@ -16,6 +16,8 @@ data class EmployeeDetails(
     val quote: String?,
     val mail: String,
     val manager: Employee,
-    val directLine: String,
+    val directLine: String?,
     val birthDate: LocalDateTime
-)
+) {
+    val fullName = "$firstName $lastName"
+}

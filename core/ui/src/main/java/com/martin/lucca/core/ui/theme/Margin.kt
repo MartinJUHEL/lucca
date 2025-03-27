@@ -18,5 +18,5 @@ val MarginBiggerPlus = 60.dp
 
 val MarginHuge = 80.dp
 
-val MarginPage = MarginLarge
+val MarginPage = MarginRegular
 

@@ -33,6 +33,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:ui"))
     implementation(project(":core:network"))
+
+    implementation(libs.androidx.runtime.android)
+    implementation(libs.androidx.ui.graphics.android)
+    implementation(libs.androidx.ui.android)
+    implementation(libs.coil)
 }
