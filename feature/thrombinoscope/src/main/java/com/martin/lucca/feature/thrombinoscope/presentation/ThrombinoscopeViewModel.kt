@@ -32,6 +32,7 @@ internal class ThrombinoscopeViewModel @Inject constructor(
         when (action) {
             is ThrombinoscopeAction.Load -> load()
             is ThrombinoscopeAction.OnUserClicked -> sendEvent(Event.GoToUserDetails(action.userId))
+            ThrombinoscopeAction.OnPullToRefresh -> onPullToRefresh()
         }
     }
 
@@ -40,7 +41,6 @@ internal class ThrombinoscopeViewModel @Inject constructor(
     ///////////////////////////////////////////////////////////////////////////
 
     private fun load() {
-        _thrombinoscopeUiState.value = ThrombinoscopeUiState.Loading
         runCoroutineIO(
             action = {
                 buildThrombinoscopeUiState.invoke()
@@ -49,5 +49,13 @@ internal class ThrombinoscopeViewModel @Inject constructor(
                 _thrombinoscopeUiState.value = uiState
             }
         )
+    }
+
+    private fun onPullToRefresh() {
+        val currentState = _thrombinoscopeUiState.value
+        if (currentState is ThrombinoscopeUiState.Success) {
+            _thrombinoscopeUiState.value = currentState.copy(isRefreshing = true)
+            load()
+        }
     }
 }

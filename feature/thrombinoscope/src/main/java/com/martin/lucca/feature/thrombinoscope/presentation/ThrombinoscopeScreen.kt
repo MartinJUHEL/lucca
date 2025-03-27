@@ -16,6 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,9 +57,10 @@ internal fun ThrombinoscopeScreen(
 
                 is ThrombinoscopeUiState.Success -> EmployeesList(
                     uiState.employees,
-                    onUserClick = { userId ->
-                        action(ThrombinoscopeAction.OnUserClicked(userId))
-                    })
+                    onUserClick = { userId -> action(ThrombinoscopeAction.OnUserClicked(userId)) },
+                    onPullToRefresh = { action(ThrombinoscopeAction.OnPullToRefresh) },
+                    isRefreshing = uiState.isRefreshing
+                )
 
                 ThrombinoscopeUiState.Empty -> EmptyScreen()
             }
@@ -76,8 +78,14 @@ private fun EmptyScreen() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EmployeesList(employees: List<Employee>, onUserClick: (Int) -> Unit) {
+private fun EmployeesList(
+    employees: List<Employee>,
+    onUserClick: (Int) -> Unit,
+    onPullToRefresh: () -> Unit,
+    isRefreshing: Boolean
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -94,14 +102,19 @@ private fun EmployeesList(employees: List<Employee>, onUserClick: (Int) -> Unit)
         Spacer(modifier = Modifier.padding(MarginSmall))
 
         // Grid of employees
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(count = 2),
-            contentPadding = PaddingValues(MarginRegular),
-            horizontalArrangement = Arrangement.spacedBy(MarginRegular),
-            verticalArrangement = Arrangement.spacedBy(MarginRegular)
+        PullToRefreshBox(
+            onRefresh = onPullToRefresh,
+            isRefreshing = isRefreshing
         ) {
-            items(employees) { user ->
-                EmployeeCard(employee = user, onClick = { onUserClick(user.id) })
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(count = 2),
+                contentPadding = PaddingValues(MarginRegular),
+                horizontalArrangement = Arrangement.spacedBy(MarginRegular),
+                verticalArrangement = Arrangement.spacedBy(MarginRegular)
+            ) {
+                items(employees) { user ->
+                    EmployeeCard(employee = user, onClick = { onUserClick(user.id) })
+                }
             }
         }
     }
@@ -113,7 +126,37 @@ internal fun ThrombinoscopeScreenPreview() {
     MaterialTheme {
         ThrombinoscopeScreen(
             action = {},
-            uiState = ThrombinoscopeUiState.Success(employees = emptyList())
+            uiState = ThrombinoscopeUiState.Success(
+                employees = listOf(
+                    Employee(
+                        id = 1,
+                        name = "Martin Juhel",
+                        firstName = "Martin",
+                        lastName = "Juhel",
+                        jobTitle = "Android Developer",
+                        pictureName = "profile_picture.jpg",
+                        pictureUrl = null
+                    ),
+                    Employee(
+                        id = 1,
+                        name = "Martin Juhel",
+                        firstName = "Martin",
+                        lastName = "Juhel",
+                        jobTitle = "Android Developer",
+                        pictureName = "profile_picture.jpg",
+                        pictureUrl = null
+                    ),
+                    Employee(
+                        id = 1,
+                        name = "Martin Juhel",
+                        firstName = "Martin",
+                        lastName = "Juhel",
+                        jobTitle = "Android Developer",
+                        pictureName = "profile_picture.jpg",
+                        pictureUrl = null
+                    ),
+                )
+            )
         )
     }
 }
