@@ -8,5 +8,5 @@ sealed class Screen {
     data object Thrombinoscope : Screen()
 
     @Serializable
-    data class UserDetails(val userId: Int) : Screen()
+    data class EmployeeDetails(val employeeId: Int) : Screen()
 }

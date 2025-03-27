@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.martin.lucca.core.asyncimage.presentation.AuthenticatedAsyncImage
-import com.martin.lucca.core.commonmodel.user.User
+import com.martin.lucca.core.commonmodel.user.Employee
 import com.martin.lucca.core.ui.R
 import com.martin.lucca.core.ui.theme.MarginSmall
 import com.martin.lucca.core.ui.theme.MarginSmaller
@@ -32,8 +32,8 @@ private val IMAGE_SIZE = 120.dp
 private val CARD_HEIGHT = 200.dp
 
 @Composable
-internal fun UserCard(
-    user: User,
+internal fun EmployeeCard(
+    employee: Employee,
     onClick: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
@@ -51,13 +51,13 @@ internal fun UserCard(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            user.pictureUrl?.let {
+            employee.pictureUrl?.let {
                 AuthenticatedAsyncImage(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(IMAGE_SIZE),
                     url = it,
-                    contentDescription = user.pictureName,
+                    contentDescription = employee.pictureName,
                     contentScale = ContentScale.FillWidth,
                 )
             } ?: Image(
@@ -65,7 +65,7 @@ internal fun UserCard(
                     .fillMaxWidth()
                     .height(IMAGE_SIZE),
                 painter = painterResource(R.drawable.ic_person_placeholder),
-                contentDescription = user.pictureName,
+                contentDescription = employee.pictureName,
                 contentScale = ContentScale.Fit,
             )
 
@@ -80,13 +80,13 @@ internal fun UserCard(
                     modifier = Modifier
                         .align(Alignment.Start)
                         .padding(),
-                    text = user.name,
+                    text = employee.name,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = Typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
                 )
 
-                user.jobTitle?.let {
+                employee.jobTitle?.let {
                     Text(
                         modifier = Modifier.align(Alignment.Start),
                         text = it,
@@ -104,8 +104,8 @@ internal fun UserCard(
 @Composable
 internal fun UserCardPreview() {
     MaterialTheme {
-        UserCard(
-            user = User(
+        EmployeeCard(
+            employee = Employee(
                 id = 1,
                 name = "Martin Juhel",
                 firstName = "Martin",

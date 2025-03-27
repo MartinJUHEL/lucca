@@ -27,7 +27,7 @@ fun ThrombinoscopeRoute(navController: NavController) {
         viewModel.collectEvent { event ->
             when (event) {
                 is ThrombinoscopeViewModel.Event.GoToUserDetails -> navController.navigate(
-                    Screen.UserDetails(
+                    Screen.EmployeeDetails(
                         event.userId
                     )
                 )

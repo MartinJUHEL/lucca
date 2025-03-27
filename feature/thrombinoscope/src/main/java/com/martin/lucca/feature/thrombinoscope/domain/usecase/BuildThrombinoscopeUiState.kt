@@ -1,22 +1,22 @@
 package com.martin.lucca.feature.thrombinoscope.domain.usecase
 
 import com.martin.lucca.feature.thrombinoscope.presentation.ThrombinoscopeUiState
-import com.martin.lucca.feature.user.data.service.UserService
+import com.martin.lucca.feature.employee.data.service.EmployeeService
 import javax.inject.Inject
 
-internal class BuildThrombinoscopeUiState @Inject constructor(private val userService: UserService) {
+internal class BuildThrombinoscopeUiState @Inject constructor(private val employeeService: EmployeeService) {
 
     suspend operator fun invoke(): ThrombinoscopeUiState {
-        return when (val result = userService.getUsers(BuildGetUsersRequest().invoke())) {
-            is UserService.UsersResult.Success -> {
-                return if (result.users.isEmpty()) {
+        return when (val result = employeeService.getEmployees(BuildGetUsersRequest().invoke())) {
+            is EmployeeService.EmployeesResult.Success -> {
+                return if (result.employees.isEmpty()) {
                     ThrombinoscopeUiState.Empty
                 } else {
-                    ThrombinoscopeUiState.Success(result.users)
+                    ThrombinoscopeUiState.Success(result.employees)
                 }
             }
 
-            is UserService.UsersResult.Error -> {
+            is EmployeeService.EmployeesResult.Error -> {
                 ThrombinoscopeUiState.Error
             }
         }

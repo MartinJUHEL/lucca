@@ -38,7 +38,7 @@ android {
 dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:commonmodel"))
-    implementation(project(":feature:user"))
+    implementation(project(":feature:employee"))
     implementation(project(":core:common"))
     implementation(project(":core:asyncimage"))
     implementation(project(":core:navigation"))

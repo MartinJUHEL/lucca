@@ -1,7 +1,7 @@
-package com.martin.lucca.feature.user.di
+package com.martin.lucca.feature.employee.di
 
 import com.martin.lucca.core.network.BuildConfig
-import com.martin.lucca.feature.user.data.api.UserApi
+import com.martin.lucca.feature.employee.data.api.EmployeeApi
 import com.martin.network.interceptor.AuthorizationInterceptor
 import dagger.Module
 import dagger.Provides
@@ -13,21 +13,21 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class UserApiModule {
+class EmployeeApiModule {
 
     @Singleton
     @Provides
-    internal fun provideUserApi(
+    internal fun provideEmployeeApi(
         retrofitBuilder: Retrofit.Builder,
         httpClientBuilder: OkHttpClient.Builder,
         authorizationInterceptor: AuthorizationInterceptor
-    ): UserApi {
+    ): EmployeeApi {
         val httpClient = httpClientBuilder.addInterceptor(authorizationInterceptor).build()
 
         return retrofitBuilder
             .client(httpClient)
             .baseUrl(BuildConfig.BASE_URL)
             .build()
-            .create(UserApi::class.java)
+            .create(EmployeeApi::class.java)
     }
 }

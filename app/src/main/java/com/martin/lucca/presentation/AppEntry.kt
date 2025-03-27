@@ -19,7 +19,7 @@ fun AppEntry(
         composable<Screen.Thrombinoscope> {
             ThrombinoscopeRoute(navController = navController)
         }
-        composable<Screen.UserDetails> {
+        composable<Screen.EmployeeDetails> {
             ThrombinoscopeRoute(navController = navController)
         }
     }

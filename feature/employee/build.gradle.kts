@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.martin.lucca.user"
+    namespace = "com.martin.lucca.employee"
 
     defaultConfig {
         compileSdk = libs.versions.projectCompileSdkVersion.get().toInt()

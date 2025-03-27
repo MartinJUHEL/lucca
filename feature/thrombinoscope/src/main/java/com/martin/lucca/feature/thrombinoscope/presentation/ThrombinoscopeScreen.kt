@@ -22,14 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.martin.lucca.core.commonmodel.user.User
+import com.martin.lucca.core.commonmodel.user.Employee
 import com.martin.lucca.core.ui.component.CenteredCircularProgressIndicator
 import com.martin.lucca.core.ui.component.GenericErrorScreen
 import com.martin.lucca.core.ui.theme.MarginRegular
 import com.martin.lucca.core.ui.theme.MarginSmall
 import com.martin.lucca.core.ui.theme.Typography
 import com.martin.lucca.feature.thrombinoscope.R
-import com.martin.lucca.feature.thrombinoscope.presentation.component.UserCard
+import com.martin.lucca.feature.thrombinoscope.presentation.component.EmployeeCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,8 +54,8 @@ internal fun ThrombinoscopeScreen(
                     action(ThrombinoscopeAction.Load)
                 })
 
-                is ThrombinoscopeUiState.Success -> UsersList(
-                    uiState.users,
+                is ThrombinoscopeUiState.Success -> EmployeesList(
+                    uiState.employees,
                     onUserClick = { userId ->
                         action(ThrombinoscopeAction.OnUserClicked(userId))
                     })
@@ -77,14 +77,14 @@ private fun EmptyScreen() {
 }
 
 @Composable
-private fun UsersList(users: List<User>, onUserClick: (Int) -> Unit) {
+private fun EmployeesList(employees: List<Employee>, onUserClick: (Int) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Header
         Text(
-            text = "${users.size} Collaborateurs",
+            text = "${employees.size} Collaborateurs",
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Left,
             modifier = Modifier
@@ -100,8 +100,8 @@ private fun UsersList(users: List<User>, onUserClick: (Int) -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(MarginRegular),
             verticalArrangement = Arrangement.spacedBy(MarginRegular)
         ) {
-            items(users) { user ->
-                UserCard(user = user, onClick = { onUserClick(user.id) })
+            items(employees) { user ->
+                EmployeeCard(employee = user, onClick = { onUserClick(user.id) })
             }
         }
     }
@@ -113,7 +113,7 @@ internal fun ThrombinoscopeScreenPreview() {
     MaterialTheme {
         ThrombinoscopeScreen(
             action = {},
-            uiState = ThrombinoscopeUiState.Success(users = emptyList())
+            uiState = ThrombinoscopeUiState.Success(employees = emptyList())
         )
     }
 }

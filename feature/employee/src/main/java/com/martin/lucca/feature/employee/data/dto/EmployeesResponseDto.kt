@@ -1,10 +1,10 @@
-package com.martin.lucca.feature.user.data.dto
+package com.martin.lucca.feature.employee.data.dto
 
-import com.martin.lucca.core.commonmodel.user.User
+import com.martin.lucca.core.commonmodel.user.Employee
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class UsersResponseDto(
+data class EmployeesResponseDto(
     val data: DataResponseDto,
 )
 
@@ -33,9 +33,9 @@ data class PictureItemResponseDto(
 // CONVERSION METHODS
 ///////////////////////////////////////////////////////////////////////////
 
-internal fun UsersResponseDto.toUsersList(): List<User> {
+internal fun EmployeesResponseDto.toUsersList(): List<Employee> {
     return data.items.map {
-        User(
+        Employee(
             id = it.id,
             name = it.name,
             firstName = it.firstName,

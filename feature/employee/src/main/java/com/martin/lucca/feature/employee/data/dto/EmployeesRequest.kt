@@ -1,6 +1,6 @@
-package com.martin.lucca.feature.user.data.dto
+package com.martin.lucca.feature.employee.data.dto
 
-data class UsersRequest(
+data class EmployeesRequest(
     val appInstanceId: Int,
     val operations: Int,
     val fields: String,

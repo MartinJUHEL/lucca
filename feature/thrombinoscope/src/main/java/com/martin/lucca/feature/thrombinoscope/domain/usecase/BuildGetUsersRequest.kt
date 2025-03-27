@@ -1,6 +1,6 @@
 package com.martin.lucca.feature.thrombinoscope.domain.usecase
 
-import com.martin.lucca.feature.user.data.dto.UsersRequest
+import com.martin.lucca.feature.employee.data.dto.EmployeesRequest
 import javax.inject.Inject
 
 private const val APP_INSTANCE_ID = 15
@@ -10,8 +10,8 @@ private const val ORDER_BY = "lastName,asc"
 
 class BuildGetUsersRequest @Inject constructor() {
 
-    operator fun invoke(): UsersRequest {
-        return UsersRequest(
+    operator fun invoke(): EmployeesRequest {
+        return EmployeesRequest(
             appInstanceId = APP_INSTANCE_ID,
             operations = OPERATIONS,
             fields = FIELDS,
