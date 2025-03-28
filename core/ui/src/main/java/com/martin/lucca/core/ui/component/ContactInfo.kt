@@ -1,5 +1,6 @@
 package com.martin.lucca.core.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,11 +14,12 @@ import com.martin.lucca.core.ui.theme.MarginTiny
 import com.martin.lucca.core.ui.theme.Typography
 
 @Composable
-fun ContactInfo(label: String, value: String) {
+fun ContactInfo(label: String, value: String, onClicked: () -> Unit = {}) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = MarginTiny)
+            .clickable { onClicked() }
     ) {
         Text(label, style = Typography.titleSmall)
         Spacer(modifier = Modifier.padding(MarginTiny))

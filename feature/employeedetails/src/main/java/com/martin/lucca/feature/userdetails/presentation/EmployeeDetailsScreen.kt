@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -50,6 +51,9 @@ import com.martin.lucca.core.ui.theme.MarginRegular
 import com.martin.lucca.core.ui.theme.MarginSmall
 import com.martin.lucca.core.ui.theme.MarginSmaller
 import com.martin.lucca.core.ui.theme.Typography
+import util.dialPhoneNumber
+import util.getActivity
+import util.sendEmail
 import java.time.LocalDateTime
 import com.martin.lucca.core.ui.R as uiResources
 import com.martin.lucca.feature.employeedetails.R as employeeDetailsResources
@@ -74,7 +78,8 @@ internal fun EmployeeDetailsScreen(
                 EmployeeDetailsUiState.Loading -> CenteredCircularProgressIndicator()
                 is EmployeeDetailsUiState.Success -> EmployeeDetails(
                     uiState.employee,
-                    onBackClicked = onBackClicked
+                    onBackClicked = onBackClicked,
+                    action = action
                 )
             }
         }
@@ -82,7 +87,11 @@ internal fun EmployeeDetailsScreen(
 }
 
 @Composable
-private fun EmployeeDetails(employee: EmployeeDetails, onBackClicked: () -> Unit) {
+private fun EmployeeDetails(
+    employee: EmployeeDetails,
+    action: (EmployeeDetailsAction) -> Unit,
+    onBackClicked: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -92,31 +101,50 @@ private fun EmployeeDetails(employee: EmployeeDetails, onBackClicked: () -> Unit
     ) {
         Header(onBackClicked, employee)
         Spacer(modifier = Modifier.height(MarginPage))
+        Body(
+            employee,
+            onEmployeeClicked = { action(EmployeeDetailsAction.OnEmployeeClicked(it)) })
+
+        Spacer(modifier = Modifier.height(MarginPage))
+    }
+}
+
+@Composable
+private fun Body(employee: EmployeeDetails, onEmployeeClicked: (employeeId: Int) -> Unit) {
+    val context = LocalContext.current
+    Column(modifier = Modifier.padding(horizontal = MarginPage)) {
         Text(
-            modifier = Modifier.align(Alignment.Start),
             text = stringResource(employeeDetailsResources.string.manager),
             style = Typography.titleSmall
         )
+        Spacer(modifier = Modifier.height(MarginSmaller))
         EmployeeSmallTile(
-            modifier = Modifier.align(Alignment.Start),
             imageUrl = employee.manager.pictureUrl ?: "",
-            name = employee.manager.fullName
+            name = employee.manager.fullName,
+            onClick = { onEmployeeClicked(employee.manager.id) }
         )
         Spacer(modifier = Modifier.height(MarginPage))
-        ContactInfo(stringResource(employeeDetailsResources.string.mail_pro), employee.mail)
+        ContactInfo(
+            stringResource(employeeDetailsResources.string.mail_pro),
+            employee.mail,
+            onClicked = {
+                context.getActivity()?.sendEmail(employee.mail)
+            })
         Spacer(modifier = Modifier.height(MarginSmaller))
         employee.directLine?.let {
             ContactInfo(
                 stringResource(employeeDetailsResources.string.direct_line),
-                it
+                it,
+                onClicked = {
+                    context.getActivity()?.dialPhoneNumber(it)
+                }
             )
         }
         Spacer(modifier = Modifier.height(MarginSmaller))
         ContactInfo(
             stringResource(employeeDetailsResources.string.birthday),
-            stringResource(uiResources.string.on, employee.birthDate.displayDate(DATE_FORMAT_DMMM))
+            stringResource(uiResources.string.on, employee.birthDate.displayDate(DATE_FORMAT_DMMM)),
         )
-        Spacer(modifier = Modifier.height(MarginPage))
     }
 }
 

@@ -26,7 +26,7 @@ internal class EmployeeDetailsViewModel @Inject constructor(
     ///////////////////////////////////////////////////////////////////////////
 
     sealed interface Event {
-
+        data class GoToEmployeeDetails(val employeeId: Int) : Event
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -47,6 +47,7 @@ internal class EmployeeDetailsViewModel @Inject constructor(
     fun onAction(action: EmployeeDetailsAction) {
         when (action) {
             is EmployeeDetailsAction.Load -> load()
+            is EmployeeDetailsAction.OnEmployeeClicked -> sendEvent(Event.GoToEmployeeDetails(action.employeeId))
         }
     }
 
