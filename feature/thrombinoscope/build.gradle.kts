@@ -42,6 +42,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:asyncimage"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:testing"))
 
     // Hilt.
     implementation(libs.hilt.android)
