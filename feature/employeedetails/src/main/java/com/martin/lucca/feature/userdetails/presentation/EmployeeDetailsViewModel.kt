@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
 import com.martin.lucca.core.common.viewmodel.BaseViewModel
 import com.martin.lucca.core.navigation.Screen
+import com.martin.lucca.feature.userdetails.domain.BuildDepartmentEmployeesUiState
 import com.martin.lucca.feature.userdetails.domain.BuildEmployeeDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class EmployeeDetailsViewModel @Inject constructor(
     private val buildEmployeeDetailsUiState: BuildEmployeeDetailsUiState,
+    private val buildDepartmentEmployeesUiState: BuildDepartmentEmployeesUiState,
     private val getEmployeeId: GetEmployeeId
 ) :
     BaseViewModel<EmployeeDetailsViewModel.Event>() {
@@ -20,6 +22,10 @@ internal class EmployeeDetailsViewModel @Inject constructor(
     private val _employeeDetailsUiState =
         MutableStateFlow<EmployeeDetailsUiState>(EmployeeDetailsUiState.Loading)
     val employeeDetailsUiState = _employeeDetailsUiState.asStateFlow()
+
+    private val _departmentEmployeesUiState =
+        MutableStateFlow<DepartmentEmployeesUiState>(DepartmentEmployeesUiState.Loading)
+    val departmentEmployeesUiState = _departmentEmployeesUiState.asStateFlow()
 
     ///////////////////////////////////////////////////////////////////////////
     // EVENTS
@@ -65,6 +71,21 @@ internal class EmployeeDetailsViewModel @Inject constructor(
             },
             then = { uiState ->
                 _employeeDetailsUiState.value = uiState
+                if (uiState is EmployeeDetailsUiState.Success) {
+                    loadDepartmentEmployees(uiState.employee.departmentId)
+                }
+            }
+        )
+    }
+
+    private fun loadDepartmentEmployees(departmentId: Int) {
+        _departmentEmployeesUiState.value = DepartmentEmployeesUiState.Loading
+        runCoroutineIO(
+            action = {
+                buildDepartmentEmployeesUiState(departmentId)
+            },
+            then = { uiState ->
+                _departmentEmployeesUiState.value = uiState
             }
         )
     }

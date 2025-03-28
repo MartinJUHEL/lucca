@@ -2,6 +2,7 @@ package com.martin.lucca.feature.employee.data.service
 
 import com.martin.lucca.core.commonmodel.user.Employee
 import com.martin.lucca.core.commonmodel.user.EmployeeDetails
+import com.martin.lucca.feature.employee.data.dto.EmployeeByDepartmentRequest
 import com.martin.lucca.feature.employee.data.dto.EmployeeDetailsRequest
 import com.martin.lucca.feature.employee.data.dto.EmployeesRequest
 
@@ -20,4 +21,6 @@ interface EmployeeService {
     suspend fun getEmployees(employeesRequest: EmployeesRequest): EmployeesResult
 
     suspend fun getEmployeeDetails(employeeDetailsRequest: EmployeeDetailsRequest): EmployeeDetailsResult
+
+    suspend fun getEmployeeByDepartment(employeeByDepartmentRequest: EmployeeByDepartmentRequest): EmployeesResult
 }

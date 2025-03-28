@@ -29,4 +29,13 @@ interface EmployeeApi {
         @Path("userId") employeeId: Int,
         @Query("fields") fields: String,
     ): Response<EmployeeDetailsResponseDto>
+
+    /**
+     * Get an employees by department
+     */
+    @GET("api/v3/users")
+    suspend fun getEmployeeByDepartment(
+        @Query("fields") fields: String,
+        @Query("departmentId") departmentId: Int,
+    ): Response<EmployeesResponseDto>
 }

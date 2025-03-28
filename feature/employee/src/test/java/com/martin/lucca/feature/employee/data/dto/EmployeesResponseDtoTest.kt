@@ -15,7 +15,6 @@ class EmployeesResponseDtoTest : BaseUnitTest() {
             items = listOf(
                 EmployeeItemResponseDto(
                     id = 123,
-                    name = "John Doe",
                     firstName = "John",
                     lastName = "Doe",
                     jobTitle = "Software Engineer",
@@ -26,7 +25,6 @@ class EmployeesResponseDtoTest : BaseUnitTest() {
                 ),
                 EmployeeItemResponseDto(
                     id = 456,
-                    name = "Jane Smith",
                     firstName = "Jane",
                     lastName = "Smith",
                     jobTitle = "Product Manager",
@@ -51,7 +49,6 @@ class EmployeesResponseDtoTest : BaseUnitTest() {
         // Premier employé
         val firstEmployee = result[0]
         assertThat(firstEmployee.id).isEqualTo(123)
-        assertThat(firstEmployee.name).isEqualTo("John Doe")
         assertThat(firstEmployee.firstName).isEqualTo("John")
         assertThat(firstEmployee.lastName).isEqualTo("Doe")
         assertThat(firstEmployee.jobTitle).isEqualTo("Software Engineer")
@@ -61,7 +58,6 @@ class EmployeesResponseDtoTest : BaseUnitTest() {
         // Deuxième employé (avec picture null)
         val secondEmployee = result[1]
         assertThat(secondEmployee.id).isEqualTo(456)
-        assertThat(secondEmployee.name).isEqualTo("Jane Smith")
         assertThat(secondEmployee.firstName).isEqualTo("Jane")
         assertThat(secondEmployee.lastName).isEqualTo("Smith")
         assertThat(secondEmployee.jobTitle).isEqualTo("Product Manager")

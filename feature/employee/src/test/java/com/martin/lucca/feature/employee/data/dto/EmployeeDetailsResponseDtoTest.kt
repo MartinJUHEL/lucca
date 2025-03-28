@@ -70,7 +70,6 @@ class EmployeeDetailsResponseDtoTest : BaseUnitTest() {
         
         // Vérification du manager
         assertThat(result.manager.id).isEqualTo(456)
-        assertThat(result.manager.name).isEqualTo("Jane Smith")
         assertThat(result.manager.firstName).isEqualTo("Jane")
         assertThat(result.manager.lastName).isEqualTo("Smith")
         assertThat(result.manager.jobTitle).isNull()

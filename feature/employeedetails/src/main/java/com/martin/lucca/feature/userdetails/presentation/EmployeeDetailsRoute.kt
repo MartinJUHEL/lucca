@@ -12,9 +12,11 @@ import com.martin.lucca.core.navigation.Screen
 fun EmployeeDetailsRoute(navController: NavController) {
     val viewModel: EmployeeDetailsViewModel = hiltViewModel()
     val uiState by viewModel.employeeDetailsUiState.collectAsStateWithLifecycle()
+    val departmentEmployeesUiState by viewModel.departmentEmployeesUiState.collectAsStateWithLifecycle()
 
     EmployeeDetailsScreen(
         uiState = uiState,
+        departmentEmployeesUiState = departmentEmployeesUiState,
         action = viewModel::onAction,
         onBackClicked = navController::popBackStack
     )

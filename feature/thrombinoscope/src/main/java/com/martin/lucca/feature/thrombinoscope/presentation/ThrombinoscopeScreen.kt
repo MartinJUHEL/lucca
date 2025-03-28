@@ -130,7 +130,6 @@ internal fun ThrombinoscopeScreenPreview() {
                 employees = listOf(
                     Employee(
                         id = 1,
-                        name = "Martin Juhel",
                         firstName = "Martin",
                         lastName = "Juhel",
                         jobTitle = "Android Developer",
@@ -139,7 +138,6 @@ internal fun ThrombinoscopeScreenPreview() {
                     ),
                     Employee(
                         id = 1,
-                        name = "Martin Juhel",
                         firstName = "Martin",
                         lastName = "Juhel",
                         jobTitle = "Android Developer",
@@ -148,7 +146,6 @@ internal fun ThrombinoscopeScreenPreview() {
                     ),
                     Employee(
                         id = 1,
-                        name = "Martin Juhel",
                         firstName = "Martin",
                         lastName = "Juhel",
                         jobTitle = "Android Developer",

@@ -5,4 +5,5 @@
   <string name="mail_pro">Email professionnel</string>
   <string name="direct_line">Ligne directe</string>
   <string name="birthday">Anniversaire</string>
+  <string name="department_members">Membres du même département</string>
 </resources>

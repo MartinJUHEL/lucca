@@ -7,6 +7,7 @@ import com.martin.lucca.core.common.network.FetchedResponse
 import com.martin.lucca.core.commonmodel.user.Employee
 import com.martin.lucca.core.commonmodel.user.EmployeeDetails
 import com.martin.lucca.feature.employee.data.api.EmployeeApi
+import com.martin.lucca.feature.employee.data.dto.EmployeeByDepartmentRequest
 import com.martin.lucca.feature.employee.data.dto.EmployeeDetailsRequest
 import com.martin.lucca.feature.employee.data.dto.EmployeeDetailsResponseDto
 import com.martin.lucca.feature.employee.data.dto.EmployeesRequest
@@ -41,9 +42,13 @@ class EmployeeServiceRemoteTest : BaseUnitTest() {
         fields = "id,firstName,lastName"
     )
 
+    private val employeeByDepartmentRequest = EmployeeByDepartmentRequest(
+        departmentId = 1,
+        fields = "id,firstName,lastName"
+    )
+
     private val employee = Employee(
         id = 123,
-        name = "John Doe",
         firstName = "John",
         lastName = "Doe",
         jobTitle = "Software Engineer",
@@ -66,7 +71,6 @@ class EmployeeServiceRemoteTest : BaseUnitTest() {
         mail = "john.doe@lucca.fr",
         manager = Employee(
             id = 456,
-            name = "Jane Smith",
             firstName = "Jane",
             lastName = "Smith",
             jobTitle = "Engineering Manager",
@@ -158,5 +162,39 @@ class EmployeeServiceRemoteTest : BaseUnitTest() {
 
         // Then
         assertThat(result).isEqualTo(EmployeeService.EmployeeDetailsResult.Error)
+    }
+
+    @Test
+    fun `getEmployeeByDepartment - returns Success when API call succeeds`() = runTest {
+        // Given
+        coEvery {
+            safeHttpCaller.call<EmployeesResponseDto, List<Employee>>(
+                action = any(),
+                transform = any()
+            )
+        } returns FetchedResponse.Success(listOf(employee))
+
+        // When
+        val result = service.getEmployeeByDepartment(employeeByDepartmentRequest)
+
+        // Then
+        assertThat(result).isEqualTo(EmployeeService.EmployeesResult.Success(listOf(employee)))
+    }
+
+    @Test
+    fun `getEmployeeByDepartment - returns Error when API call fails`() = runTest {
+        // Given
+        coEvery {
+            safeHttpCaller.call<EmployeesResponseDto, List<Employee>>(
+                action = any(),
+                transform = any()
+            )
+        } returns FetchedResponse.Error(error = ErrorInfo(httpCode = 1, message = "error"))
+
+        // When
+        val result = service.getEmployeeByDepartment(employeeByDepartmentRequest)
+
+        // Then
+        assertThat(result).isEqualTo(EmployeeService.EmployeesResult.Error)
     }
 } 

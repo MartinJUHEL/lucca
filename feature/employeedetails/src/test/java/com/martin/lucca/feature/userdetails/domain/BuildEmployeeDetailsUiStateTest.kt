@@ -4,9 +4,11 @@ import com.google.common.truth.Truth.assertThat
 import com.martin.core.testing.BaseUnitTest
 import com.martin.lucca.core.commonmodel.user.Employee
 import com.martin.lucca.core.commonmodel.user.EmployeeDetails
+import com.martin.lucca.feature.employee.data.dto.EmployeeDetailsRequest
 import com.martin.lucca.feature.employee.data.service.EmployeeService
 import com.martin.lucca.feature.userdetails.presentation.EmployeeDetailsUiState
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -20,9 +22,14 @@ class BuildEmployeeDetailsUiStateTest : BaseUnitTest() {
     ///////////////////////////////////////////////////////////////////////////
 
     private lateinit var employeeService: EmployeeService
+    private lateinit var buildGetEmployeeDetailsRequest: BuildGetEmployeeDetailsRequest
     private lateinit var useCase: BuildEmployeeDetailsUiState
 
     private val employeeId = 123
+    private val employeeDetailsRequest = EmployeeDetailsRequest(
+        employeeId = employeeId,
+        fields = "id,firstName,lastName,picture[name,href],jobTitle,department[name,id],legalEntity[name],dtContractStart,quote,mail,manager[id,name,firstName,lastName,picture[id,name,href]],directLine,birthDate"
+    )
     private val employeeDetails = EmployeeDetails(
         id = employeeId,
         firstName = "John",
@@ -38,7 +45,6 @@ class BuildEmployeeDetailsUiStateTest : BaseUnitTest() {
         mail = "john.doe@lucca.fr",
         manager = Employee(
             id = 456,
-            name = "Jane Smith",
             firstName = "Jane",
             lastName = "Smith",
             jobTitle = "Engineering Manager",
@@ -56,7 +62,10 @@ class BuildEmployeeDetailsUiStateTest : BaseUnitTest() {
     @Before
     fun setup() {
         employeeService = mockk()
-        useCase = BuildEmployeeDetailsUiState(employeeService)
+        buildGetEmployeeDetailsRequest = mockk()
+        useCase = BuildEmployeeDetailsUiState(employeeService, buildGetEmployeeDetailsRequest)
+
+        every { buildGetEmployeeDetailsRequest(employeeId) } returns employeeDetailsRequest
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -67,7 +76,7 @@ class BuildEmployeeDetailsUiStateTest : BaseUnitTest() {
     fun `nominal case - returns Success when employee details are retrieved`() = runTest {
         // Given
         coEvery {
-            employeeService.getEmployeeDetails(any())
+            employeeService.getEmployeeDetails(employeeDetailsRequest)
         } returns EmployeeService.EmployeeDetailsResult.Success(employeeDetails)
 
         // When
@@ -81,7 +90,7 @@ class BuildEmployeeDetailsUiStateTest : BaseUnitTest() {
     fun `error case - returns Error when employee details cannot be retrieved`() = runTest {
         // Given
         coEvery {
-            employeeService.getEmployeeDetails(any())
+            employeeService.getEmployeeDetails(employeeDetailsRequest)
         } returns EmployeeService.EmployeeDetailsResult.Error
 
         // When

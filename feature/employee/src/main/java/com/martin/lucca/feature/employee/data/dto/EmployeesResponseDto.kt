@@ -16,7 +16,6 @@ data class DataResponseDto(
 @JsonClass(generateAdapter = true)
 data class EmployeeItemResponseDto(
     val id: Int,
-    val name: String,
     val firstName: String,
     val lastName: String,
     val jobTitle: String?,
@@ -37,7 +36,6 @@ internal fun EmployeesResponseDto.toEmployeesList(): List<Employee> {
     return data.items.map {
         Employee(
             id = it.id,
-            name = it.name,
             firstName = it.firstName,
             lastName = it.lastName,
             jobTitle = it.jobTitle,

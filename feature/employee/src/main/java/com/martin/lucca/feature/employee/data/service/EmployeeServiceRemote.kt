@@ -2,6 +2,7 @@ package com.martin.lucca.feature.employee.data.service
 
 import com.martin.lucca.core.common.network.FetchedResponse
 import com.martin.lucca.feature.employee.data.api.EmployeeApi
+import com.martin.lucca.feature.employee.data.dto.EmployeeByDepartmentRequest
 import com.martin.lucca.feature.employee.data.dto.EmployeeDetailsRequest
 import com.martin.lucca.feature.employee.data.dto.EmployeesRequest
 import com.martin.lucca.feature.employee.data.dto.toEmployeeDetails
@@ -41,6 +42,20 @@ class EmployeeServiceRemote @Inject constructor(
         return when (response) {
             is FetchedResponse.Success -> EmployeeService.EmployeeDetailsResult.Success(response.value)
             is FetchedResponse.Error -> EmployeeService.EmployeeDetailsResult.Error
+        }
+    }
+
+    override suspend fun getEmployeeByDepartment(employeeByDepartmentRequest: EmployeeByDepartmentRequest): EmployeeService.EmployeesResult {
+        val response = safeHttpCaller.call(action = {
+            employeeApi.getEmployeeByDepartment(
+                fields = employeeByDepartmentRequest.fields,
+                departmentId = employeeByDepartmentRequest.departmentId
+            )
+        }, transform = { employeesResponseDto -> employeesResponseDto.toEmployeesList() })
+
+        return when (response) {
+            is FetchedResponse.Success -> EmployeeService.EmployeesResult.Success(response.value)
+            is FetchedResponse.Error -> EmployeeService.EmployeesResult.Error
         }
     }
 }

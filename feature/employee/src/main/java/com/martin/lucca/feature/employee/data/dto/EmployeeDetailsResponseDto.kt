@@ -74,7 +74,6 @@ internal fun EmployeeDetailsResponseDto.toEmployeeDetails(): EmployeeDetails {
         mail = data.mail,
         manager = Employee(
             id = data.manager.id.toInt(),
-            name = data.manager.name,
             firstName = data.manager.firstName,
             lastName = data.manager.lastName,
             jobTitle = null,

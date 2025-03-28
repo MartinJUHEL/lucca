@@ -51,6 +51,7 @@ import com.martin.lucca.core.ui.theme.MarginRegular
 import com.martin.lucca.core.ui.theme.MarginSmall
 import com.martin.lucca.core.ui.theme.MarginSmaller
 import com.martin.lucca.core.ui.theme.Typography
+import com.martin.lucca.feature.userdetails.presentation.component.DepartmentEmployeesList
 import util.dialPhoneNumber
 import util.getActivity
 import util.sendEmail
@@ -63,8 +64,9 @@ private val IMAGE_SIZE = 120.dp
 @Composable
 internal fun EmployeeDetailsScreen(
     uiState: EmployeeDetailsUiState,
+    departmentEmployeesUiState: DepartmentEmployeesUiState,
     action: (EmployeeDetailsAction) -> Unit,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
 ) {
     Scaffold { padding ->
         Box(modifier = Modifier.padding(padding)) {
@@ -78,6 +80,7 @@ internal fun EmployeeDetailsScreen(
                 EmployeeDetailsUiState.Loading -> CenteredCircularProgressIndicator()
                 is EmployeeDetailsUiState.Success -> EmployeeDetails(
                     uiState.employee,
+                    departmentEmployeesUiState = departmentEmployeesUiState,
                     onBackClicked = onBackClicked,
                     action = action
                 )
@@ -89,8 +92,9 @@ internal fun EmployeeDetailsScreen(
 @Composable
 private fun EmployeeDetails(
     employee: EmployeeDetails,
+    departmentEmployeesUiState: DepartmentEmployeesUiState,
     action: (EmployeeDetailsAction) -> Unit,
-    onBackClicked: () -> Unit
+    onBackClicked: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -102,7 +106,8 @@ private fun EmployeeDetails(
         Header(onBackClicked, employee)
         Spacer(modifier = Modifier.height(MarginPage))
         Body(
-            employee,
+            employee = employee,
+            departmentEmployeesUiState = departmentEmployeesUiState,
             onEmployeeClicked = { action(EmployeeDetailsAction.OnEmployeeClicked(it)) })
 
         Spacer(modifier = Modifier.height(MarginPage))
@@ -110,7 +115,11 @@ private fun EmployeeDetails(
 }
 
 @Composable
-private fun Body(employee: EmployeeDetails, onEmployeeClicked: (employeeId: Int) -> Unit) {
+private fun Body(
+    employee: EmployeeDetails,
+    departmentEmployeesUiState: DepartmentEmployeesUiState,
+    onEmployeeClicked: (employeeId: Int) -> Unit
+) {
     val context = LocalContext.current
     Column(modifier = Modifier.padding(horizontal = MarginPage)) {
         Text(
@@ -123,7 +132,7 @@ private fun Body(employee: EmployeeDetails, onEmployeeClicked: (employeeId: Int)
             name = employee.manager.fullName,
             onClick = { onEmployeeClicked(employee.manager.id) }
         )
-        Spacer(modifier = Modifier.height(MarginPage))
+        Spacer(modifier = Modifier.height(MarginRegular))
         ContactInfo(
             stringResource(employeeDetailsResources.string.mail_pro),
             employee.mail,
@@ -145,6 +154,10 @@ private fun Body(employee: EmployeeDetails, onEmployeeClicked: (employeeId: Int)
             stringResource(employeeDetailsResources.string.birthday),
             stringResource(uiResources.string.on, employee.birthDate.displayDate(DATE_FORMAT_DMMM)),
         )
+        DepartmentEmployeesList(
+            departmentEmployeesUiState = departmentEmployeesUiState,
+            onEmployeeClicked = { onEmployeeClicked(it) })
+        Spacer(modifier = Modifier.height(MarginSmaller))
     }
 }
 
@@ -255,7 +268,6 @@ internal fun EmployeeDetailsScreenPreview() {
                 mail = "abouvet@example.org",
                 manager = Employee(
                     id = 1,
-                    name = "Marie Bragolet",
                     firstName = "Marie",
                     lastName = "Bragolet",
                     jobTitle = "Ingénieur R&D",
@@ -264,6 +276,18 @@ internal fun EmployeeDetailsScreenPreview() {
                 ),
                 directLine = "01 22 49 21 00",
                 birthDate = LocalDateTime.now()
+            )
+        ),
+        departmentEmployeesUiState = DepartmentEmployeesUiState.Success(
+            employees = listOf(
+                Employee(
+                    id = 1,
+                    firstName = "Marie",
+                    lastName = "Bragolet",
+                    jobTitle = "Ingénieur R&D",
+                    pictureName = "profile_picture.jpg",
+                    pictureUrl = null
+                )
             )
         ),
         action = {},

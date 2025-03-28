@@ -80,7 +80,7 @@ internal fun EmployeeCard(
                     modifier = Modifier
                         .align(Alignment.Start)
                         .padding(),
-                    text = employee.name,
+                    text = employee.fullName,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
                     style = Typography.bodyMedium.copy(fontWeight = FontWeight.Bold)
@@ -107,7 +107,6 @@ internal fun EmployeeCardPreview() {
         EmployeeCard(
             employee = Employee(
                 id = 1,
-                name = "Martin Juhel",
                 firstName = "Martin",
                 lastName = "Juhel",
                 jobTitle = "Android Developer",
