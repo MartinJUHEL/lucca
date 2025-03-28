@@ -10,11 +10,11 @@ data class EmployeesResponseDto(
 
 @JsonClass(generateAdapter = true)
 data class DataResponseDto(
-    val items: List<UserItemResponseDto>
+    val items: List<EmployeeItemResponseDto>
 )
 
 @JsonClass(generateAdapter = true)
-data class UserItemResponseDto(
+data class EmployeeItemResponseDto(
     val id: Int,
     val name: String,
     val firstName: String,
