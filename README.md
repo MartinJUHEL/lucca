@@ -2,6 +2,8 @@
 
 Pour que ça fonctionne, il faut rajouter cette ligne dans le fichier local.properties : LUCCA_API_KEY=f6a2d39f-b2bd-48f6-b573-997bae583c05
 
+J'ai fais de la clean archi en multimodule, pour bien séparer chaque features.
+
 Petite features en plus :
 
 - Pull to refresh sur la page de Thrombinoscope.
